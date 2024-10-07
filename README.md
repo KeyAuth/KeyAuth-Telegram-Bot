@@ -11,4 +11,5 @@ Telegram Bot for KeyAuth Seller API
 ## Self Hosted
 1. Download the files
 2. Set your Telegram bot token and seller key in the .env file
-3. Run ```npx ts-node bot.ts``` in the terminal
+3. Run ```npx ts-node bot.ts``` in the terminal to start the bot
+   
