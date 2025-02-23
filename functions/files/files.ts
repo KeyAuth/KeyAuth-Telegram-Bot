@@ -1,31 +1,50 @@
 import { Bot } from "grammy";
-import { env } from "../../utility";
-import axiosInstance from "../../utility";
+import { MakeRequest } from "../../utility";
 
 export const DeleteExistingFile = (bot: Bot) => {
-  bot.command("DeleteExistingFile", (ctx) => {
-    ctx.reply("App function is working!");
+  bot.command("DeleteExistingFile", async (ctx) => {
+    const input = ctx.message?.text;
+    if (!input) {
+      await ctx.reply("No command detected");
+      return;
+    }
+
+    const args = input.split(" ").slice(1);
+    const fileid = args[0];
+
+    if (!fileid) {
+      await ctx.reply("You must provide the fiel ID.");
+      return;
+    }
+
+    MakeRequest(
+      ctx,
+      {
+        type: "delfile",
+        fileid: fileid,
+      },
+      "Error deleting the file:",
+      "An error occurred while deleting the file."
+    );
   });
 };
 
 export const DeleteAllFiles = (bot: Bot) => {
   bot.command("DeleteAllFiles", async (ctx) => {
-    const type = `delallfiles`;
-
-    try {
-      const response = await axiosInstance.get(type);
-      const data = response.data;
-
-      let message = "Application Settings: \n";
-
-      Object.entries(data).forEach(([key, value]) => {
-        message += `${key}: ${value}\n`;
-      });
-
-      ctx.reply(message);
-    } catch (error) {
-      ctx.reply(`An unknown error occurred. Please try again later.`);
+    const input = ctx.message?.text;
+    if (!input) {
+      await ctx.reply("No command detected");
+      return;
     }
+
+    MakeRequest(
+      ctx,
+      {
+        type: "delallfiles",
+      },
+      "Error deleting all files",
+      "An error occurred while deleting all files."
+    );
   });
 };
 
@@ -37,41 +56,111 @@ export const RetrieveAllFiles = (bot: Bot) => {
       return;
     }
 
-    try {
-      const response = await axiosInstance.get("", {
-        params: {
-          type: "fetchallfiles",
-        },
-      });
-      const data = response.data;
-
-      let message = "Response:\n";
-      Object.entries(data).forEach(([key, value]) => {
-        message += `${key}: ${value}\n`;
-      });
-
-      await ctx.reply(message);
-    } catch (error) {
-      console.error("Error fetching all files:", error);
-      await ctx.reply("An error occurred while fetching all files.");
-    }
+    MakeRequest(
+      ctx,
+      {
+        type: "fetchallfiles",
+      },
+      "Error fetching all files:",
+      "An error occurred while fetching all files."
+    );
   });
 };
 
 export const RetrieveExistingFile = (bot: Bot) => {
-  bot.command("RetrieveExistingFile", (ctx) => {
-    ctx.reply("This function is not implemented yet.");
+  bot.command("RetrieveExistingFile", async (ctx) => {
+    const input = ctx.message?.text;
+    if (!input) {
+      await ctx.reply("No command detected");
+      return;
+    }
+
+    const args = input.split(" ").slice(1);
+    const id = args[0];
+
+    if (!id) {
+      await ctx.reply("You must provide the file ID.");
+      return;
+    }
+
+    MakeRequest(
+      ctx,
+      {
+        type: "fetchfile",
+        id: id,
+      },
+      "Error fetching file:",
+      "An error occurred while fetching file."
+    );
   });
 };
 
 export const EditExistingFile = (bot: Bot) => {
-  bot.command("EditExistingFile", (ctx) => {
-    ctx.reply("This function is not implemented yet.");
+  bot.command("EditExistingFile", async (ctx) => {
+    const input = ctx.message?.text;
+    if (!input) {
+      await ctx.reply("No command detected");
+      return;
+    }
+
+    const args = input.split(" ").slice(1);
+    const id = args[0];
+    const url = args[1];
+    const authed = args[2];
+
+    if (!id) {
+      await ctx.reply("You must provide the file ID.");
+      return;
+    }
+
+    if (!url) {
+      await ctx.reply("You must provide the file URL.");
+      return;
+    }
+
+    if (!authed) {
+      await ctx.reply("You must provide the file authentication status.");
+      return;
+    }
+
+    MakeRequest(
+      ctx,
+      {
+        type: "editfile",
+        id: id,
+        url: url,
+        authed: authed,
+      },
+      "Error editing the file:",
+      "An error occurred while editing the file."
+    );
   });
 };
 
 export const UploadNewFile = (bot: Bot) => {
-  bot.command("UploadNewFile", (ctx) => {
-    ctx.reply("This function is not implemented yet.");
+  bot.command("UploadNewFile", async (ctx) => {
+    const input = ctx.message?.text;
+    if (!input) {
+      await ctx.reply("No command detected");
+      return;
+    }
+
+    const args = input.split(" ").slice(1);
+    const url = args[0];
+
+    if (!url) {
+      await ctx.reply("You must provide the file URL.");
+      return;
+    }
+
+    MakeRequest(
+      ctx,
+      {
+        type: "upload",
+        url: url,
+      },
+      "Error adding file:",
+      "An error occurred while adding file."
+    );
   });
 };

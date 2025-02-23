@@ -1,5 +1,5 @@
 import { Bot } from "grammy";
-import axiosInstance from "../../utility";
+import { MakeRequest } from "../../utility";
 
 export const AddApplicationHash = (bot: Bot): void => {
   bot.command("AddApplicationHash", async (ctx) => {
@@ -16,31 +16,37 @@ export const AddApplicationHash = (bot: Bot): void => {
       return;
     }
 
-    try {
-      const response = await axiosInstance.get("", {
-        params: {
-          type: "addhash",
-          hash: hash,
-        },
-      });
-      const data = response.data;
-
-      let message = "Response:\n";
-      Object.entries(data).forEach(([key, value]) => {
-        message += `${key}: ${value}\n`;
-      });
-
-      await ctx.reply(message);
-    } catch (error) {
-      console.error("Error adding hash:", error);
-      await ctx.reply("An error occurred while adding the hash.");
-    }
+    await MakeRequest(
+      ctx,
+      { type: "addhash", hash: hash },
+      "Error adding hash:",
+      "An error occurred while adding the hash."
+    );
   });
 };
 
 export const EditApplicationSettings = (bot: Bot) => {
   bot.command("EditApplicationSettings", (ctx) => {
     ctx.reply("This function is not implemented yet.");
+  });
+};
+
+export const RetrieveApplicationDetails = (bot: Bot): void => {
+  bot.command("RetrieveApplicationDetails", async (ctx) => {
+    const input = ctx.message?.text;
+    if (!input) {
+      await ctx.reply("No command detected");
+      return;
+    }
+
+    await MakeRequest(
+      ctx,
+      { 
+        type: "appdetails", 
+      },
+      "Error adding hash:",
+      "An error occurred while adding the hash."
+    );
   });
 };
 
@@ -52,24 +58,12 @@ export const RetrieveApplicationSettings = (bot: Bot) => {
       return;
     }
 
-    try {
-      const response = await axiosInstance.get("", {
-        params: {
-          type: "getsettings",
-        },
-      });
-      const data = response.data;
-
-      let message = "Response:\n";
-      Object.entries(data).forEach(([key, value]) => {
-        message += `${key}: ${value}\n`;
-      });
-
-      await ctx.reply(message);
-    } catch (error) {
-      console.error("Error retrieving settings:", error);
-      await ctx.reply("An error occurred while retrieving settings");
-    }
+    await MakeRequest(
+      ctx,
+      { type: "getsettings" },
+      "Error retrieving application settings:",
+      "An error occurred while retrieving application settings."
+    );
   });
 };
 
@@ -81,24 +75,12 @@ export const PauseApplication = (bot: Bot) => {
       return;
     }
 
-    try {
-      const response = await axiosInstance.get("", {
-        params: {
-          type: "pauseapp",
-        },
-      });
-      const data = response.data;
-
-      let message = "Response:\n";
-      Object.entries(data).forEach(([key, value]) => {
-        message += `${key}: ${value}\n`;
-      });
-
-      await ctx.reply(message);
-    } catch (error) {
-      console.error("Error pausing application:", error);
-      await ctx.reply("An error occurred while pausing the application.");
-    }
+    MakeRequest(
+      ctx,
+      { type: "pauseapp" },
+      "Error pausing application:",
+      "An error occurred while pausing the application."
+    );
   });
 };
 
@@ -110,24 +92,12 @@ export const UnpauseApplication = (bot: Bot) => {
       return;
     }
 
-    try {
-      const response = await axiosInstance.get("", {
-        params: {
-          type: "unpauseapp",
-        },
-      });
-      const data = response.data;
-
-      let message = "Response:\n";
-      Object.entries(data).forEach(([key, value]) => {
-        message += `${key}: ${value}\n`;
-      });
-
-      await ctx.reply(message);
-    } catch (error) {
-      console.error("Error unpausing application:", error);
-      await ctx.reply("An error occurred while unpausing the application.");
-    }
+    MakeRequest(
+      ctx,
+      { type: "unpauseapp" },
+      "Error unpausing application:",
+      "An error occurred while unpausing the application."
+    );
   });
 };
 
@@ -139,23 +109,11 @@ export const ResetApplicationHash = (bot: Bot) => {
       return;
     }
 
-    try {
-      const response = await axiosInstance.get("", {
-        params: {
-          type: "resethash",
-        },
-      });
-      const data = response.data;
-
-      let message = "Response:\n";
-      Object.entries(data).forEach(([key, value]) => {
-        message += `${key}: ${value}\n`;
-      });
-
-      await ctx.reply(message);
-    } catch (error) {
-      console.error("Error resetting hash:", error);
-      await ctx.reply("An error occurred while resetting the hash.");
-    }
+    MakeRequest(
+      ctx,
+      { type: "resethash" },
+      "Error resetting application hash:",
+      "An error occurred while resetting the application hash."
+    );
   });
 };

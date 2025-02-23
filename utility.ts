@@ -36,4 +36,27 @@ axiosInstance.interceptors.response.use(
     }
 );
 
+export async function MakeRequest(
+    ctx: Context,
+    params: Record<string, any>,
+    errorLogMessage: string,
+    errorReply: string,
+    successReplyPrefix: string = "Response:\n"
+  ): Promise<void> {
+    try {
+      const response = await axiosInstance.get("", { params });
+      const data = response.data;
+  
+      let message = successReplyPrefix;
+      Object.entries(data).forEach(([key, value]) => {
+        message += `${key}: ${value}\n`;
+      });
+  
+      await ctx.reply(message);
+    } catch (error) {
+      console.error(errorLogMessage, error);
+      await ctx.reply(errorReply);
+    }
+  }
+
 export default axiosInstance;

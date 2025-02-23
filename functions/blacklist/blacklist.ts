@@ -1,6 +1,5 @@
 import { Bot } from "grammy";
-import { env } from "../../utility";
-import axiosInstance from "../../utility";
+import { MakeRequest } from "../../utility";
 
 export const CreateNewBlacklist = (bot: Bot) => {
   bot.command("CreateNewBlacklist", async (ctx) => {
@@ -30,30 +29,20 @@ export const CreateNewBlacklist = (bot: Bot) => {
       return;
     }
 
-    try {
-      const response = await axiosInstance.get("", {
-        params: {
-          type: "black",
-          ip: ip,
-          hwid: hwid,
-          region: region,
-          country: country,
-          asn: asn,
-          reason: reason,
-        },
-      });
-      const data = response.data;
-
-      let message = "Response:\n";
-      Object.entries(data).forEach(([key, value]) => {
-        message += `${key}: ${value}\n`;
-      });
-
-      await ctx.reply(message);
-    } catch (error) {
-      console.error("Error adding new blacklist:", error);
-      await ctx.reply("An error occurred while adding new blacklist.");
-    }
+   MakeRequest(
+      ctx,
+      {
+        type: "black",
+        ip: ip,
+        hwid: hwid,
+        region: region,
+        country: country,
+        asn: asn,
+        reason: reason,
+      },
+      "Error adding blacklist:",
+      "An error occurred while adding blacklist."
+    );
   });
 };
 
@@ -83,26 +72,16 @@ export const DeleteExistingBlacklist = (bot: Bot) => {
       return;
     }
 
-    try {
-      const response = await axiosInstance.get("", {
-        params: {
-          type: "delblack",
-          data: dataType,
-          blacktype: blacktype,
-        },
-      });
-      const data = response.data;
-
-      let message = "Response:\n";
-      Object.entries(data).forEach(([key, value]) => {
-        message += `${key}: ${value}\n`;
-      });
-
-      await ctx.reply(message);
-    } catch (error) {
-      console.error("Error adding deleting blacklist:", error);
-      await ctx.reply("An error occurred while deleting blacklist.");
-    }
+    MakeRequest(
+      ctx,
+      {
+        type: "delblack",
+        dataType: dataType,
+        blacktype: blacktype,
+      },
+      "Error deleting blacklist:",
+      "An error occurred while deleting blacklist."
+    );
   });
 };
 
@@ -114,24 +93,14 @@ export const DeleteAllBlacklists = (bot: Bot) => {
       return;
     }
 
-    try {
-      const response = await axiosInstance.get("", {
-        params: {
-          type: "delblacks",
-        },
-      });
-      const data = response.data;
-
-      let message = "Response:\n";
-      Object.entries(data).forEach(([key, value]) => {
-        message += `${key}: ${value}\n`;
-      });
-
-      await ctx.reply(message);
-    } catch (error) {
-      console.error("Error deleting all blacklists:", error);
-      await ctx.reply("An error occurred while deleting all blacklists.");
-    }
+    MakeRequest(
+      ctx,
+      {
+        type: "delblacks",
+      },
+      "Error deleting all blacklists:",
+      "An error occurred while deleting all blacklists."
+    );
   });
 };
 
@@ -143,23 +112,13 @@ export const RetrieveAllBlacklists = (bot: Bot) => {
       return;
     }
 
-    try {
-      const response = await axiosInstance.get("", {
-        params: {
-          type: "fetchallblacks",
-        },
-      });
-      const data = response.data;
-
-      let message = "Response:\n";
-      Object.entries(data).forEach(([key, value]) => {
-        message += `${key}: ${value}\n`;
-      });
-
-      await ctx.reply(message);
-    } catch (error) {
-      console.error("Error pausing application:", error);
-      await ctx.reply("An error occurred while pausing the application.");
-    }
+    MakeRequest(
+      ctx,
+      {
+        type: "fetchallblacks",
+      },
+      "Error retrieving all blacklists:",
+      "An error occurred while retrieving all blacklists."
+    );
   });
 };
