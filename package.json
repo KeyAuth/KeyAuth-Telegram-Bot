@@ -1,0 +1,25 @@
+{
+  "name": "telegram-bot-example",
+  "module": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "lines": "cloc . --exclude-dir=node_modules,dist,tests --exclude-lang=JSON,Markdown,HTML"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "electron-rebuild": "^3.2.9"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@grammyjs/conversations": "^2.1.0",
+    "axios": "^1.10.0",
+    "better-sqlite3": "^11.10.0",
+    "bun.db": "^1.1.2",
+    "chalk": "^5.4.1",
+    "cloc": "^2.4.0-cloc",
+    "grammy": "^1.36.3",
+    "telegram-bot-example": "."
+  }
+}
