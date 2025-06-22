@@ -17,6 +17,7 @@ Full source code for [KeyAuth](https://keyauth.cc) Seller API telegram bot.
 2. Get telegram api token, message @botfather
 3. bun i
 4. bun run .
+5. Run /addseller
 ```
 ## Bugs
 
