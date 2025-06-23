@@ -33,7 +33,7 @@ async function handleSubscription(ctx: Context): Promise<void> {
   const response = await Request({
     sellerkey: sellerKey,
     type: "countsubs",
-    sub: subscription,
+    name: subscription,
   });
 
   if (!response.success) {
