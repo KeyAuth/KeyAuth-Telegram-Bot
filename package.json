@@ -15,7 +15,6 @@
   "dependencies": {
     "@grammyjs/conversations": "^2.1.0",
     "axios": "^1.10.0",
-    "better-sqlite3": "^11.10.0",
     "bun.db": "^1.1.2",
     "chalk": "^5.4.1",
     "cloc": "^2.4.0-cloc",

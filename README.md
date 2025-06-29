@@ -19,6 +19,8 @@ Full source code for [KeyAuth](https://keyauth.cc) Seller API telegram bot.
 4. bun run .
 5. Run /addseller
 ```
+
+**If you would like to change some of the logging, or paths view `src/config.ts` and edit what you would like**
 ## Bugs
 
 If there's a problem with **running** the bot after following the instructions, please report a bug here https://keyauth.cc/app/?page=forms
