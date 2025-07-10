@@ -132,6 +132,24 @@ export const execute: Execute = async (ctx: Context, bot, args) => {
       }
       break;
 
+    // Count users
+    case "count":
+      const countResponse = await Request({
+        sellerkey: sellerKeyGet,
+        type: "countsubs",
+        name: data,
+      });
+
+      if (!countResponse.success) {
+        await ctx.editMessageText(`❌ Error: ${countResponse.message}`);
+        return;
+      } else {
+        await ctx.editMessageText(
+          `✅ There are ${countResponse.count} users with subscription: ${data}.`
+        );
+      }
+      break;
+
     default:
       await ctx.editMessageText("❌ Invalid subscription action specified.");
       break;
