@@ -8,8 +8,7 @@ import path from "path";
 import logger from "./logger";
 import config from "../config";
 import { Bot } from "grammy";
-import { BunDB } from "bun.db"; // Comment or remove this line if not using Bun
-// import { QuickDB } from "quick.db"; // Uncomment if not using Bun
+import { BunDB } from "./database";
 import { stateManager } from "./state";
 import type { Button } from "../interfaces/Button";
 import type { Command } from "../interfaces/Command";
@@ -18,8 +17,7 @@ export default class TelegramBot extends Bot {
   public buttons: Map<string, Button> = new Map();
   public commands: Map<string, Command> = new Map();
   public cooldowns = new Map<string, Map<number, number>>();
-  public database = new BunDB("keyauth.sqlite"); // Comment or remove this line if not using Bun
-  // public database = new QuickDB(); // Uncomment if not using Bun
+  public database: BunDB;
 
   /**
    * Create a new bot instance
@@ -27,6 +25,16 @@ export default class TelegramBot extends Bot {
    */
   constructor(token: string) {
     super(token);
+
+    const databasePath = process.env.DATABASE_PATH || process.env.database_path || "keyauth.sqlite";
+    
+    // Log the database path being used
+    logger.info(`Initializing database at path: ${databasePath}`);
+    if (databasePath === "keyauth.sqlite") {
+      logger.warn("Using default database path. If you intended to use a persistent volume, check your DATABASE_PATH environment variable.");
+    }
+
+    this.database = new BunDB(databasePath);
 
     Promise.all([
       config.loading.buttons &&
