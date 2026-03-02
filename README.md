@@ -23,7 +23,7 @@ Full source code for [KeyAuth](https://keyauth.cc) Seller API telegram bot.
 **If you would like to change some of the logging, or paths view `src/config.ts` and edit what you would like**
 ## Bugs
 
-If there's a problem with **running** the bot after following the instructions, please report a bug here https://keyauth.cc/app/?page=forms
+If there's a problem with **running** the bot after following the instructions, please report a bug here https://keyauth.fdback.io
 
 Do **not** submit a bug report if you're having issues installing NPM packages. That has nothing to do with KeyAuth and you'll need to Google/YouTube your instillation error(s)
 ## License
