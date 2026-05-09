@@ -145,7 +145,7 @@ async function createUser(
     type: "adduser",
     user: userData.username,
     pass: userData.password,
-    expiry: userData.expiration,
+    expiry: userData.expiration.toString(),
     hwidAffected: hwidAffected,
   });
 
