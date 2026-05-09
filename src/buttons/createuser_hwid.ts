@@ -1,6 +1,6 @@
 import { Context } from "grammy";
 import { type Execute } from "../interfaces/Button";
-import { GetSellerKey, Request } from "../utilities/session";
+import { Request } from "../utilities/session";
 import { stateManager } from "../utilities/state";
 
 // Store user creation data per userId
@@ -51,7 +51,7 @@ export const execute: Execute = async (ctx: Context, bot, args) => {
     type: "adduser",
     user: userData.username,
     pass: userData.password,
-    expiration: userData.expiration,
+    expiry: userData.expiration.toString(),
     hwidAffected: hwidAffected,
   });
 
