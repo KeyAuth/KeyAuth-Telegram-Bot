@@ -144,6 +144,7 @@ async function createUser(
     sellerkey: userData.sellerKey,
     type: "adduser",
     user: userData.username,
+    sub: "default",
     pass: userData.password,
     expiry: userData.expiration.toString(),
     hwidAffected: hwidAffected,
