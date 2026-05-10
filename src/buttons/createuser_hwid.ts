@@ -6,7 +6,13 @@ import { stateManager } from "../utilities/state";
 // Store user creation data per userId
 const userCreationData = new Map<
   number,
-  { sellerKey: string; username: string; password: string; expiration: number }
+  {
+    sellerKey: string;
+    username: string;
+    password: string;
+    expiration: number;
+    subscription: string;
+  }
 >();
 
 export function setUserCreationData(
@@ -16,6 +22,7 @@ export function setUserCreationData(
     username: string;
     password: string;
     expiration: number;
+    subscription: string;
   },
 ) {
   userCreationData.set(userId, data);
@@ -50,7 +57,7 @@ export const execute: Execute = async (ctx: Context, bot, args) => {
     sellerkey: userData.sellerKey,
     type: "adduser",
     user: userData.username,
-    sub: "default",
+    sub: userData.subscription,
     pass: userData.password,
     expiry: userData.expiration.toString(),
     hwidAffected: hwidAffected,
