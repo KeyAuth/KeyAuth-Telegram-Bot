@@ -50,6 +50,7 @@ export const execute: Execute = async (ctx: Context, bot, args) => {
     sellerkey: userData.sellerKey,
     type: "adduser",
     user: userData.username,
+    sub: "default",
     pass: userData.password,
     expiry: userData.expiration.toString(),
     hwidAffected: hwidAffected,
