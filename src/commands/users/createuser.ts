@@ -8,7 +8,13 @@ import { setUserCreationData } from "../../buttons/createuser_hwid";
 // Store user creation data per userId
 const userCreationData = new Map<
   number,
-  { sellerKey: string; username: string; password: string; expiration: number }
+  {
+    sellerKey: string;
+    username: string;
+    password: string;
+    expiration: number;
+    subscription: string;
+  }
 >();
 
 export const name: string = "createuser";
@@ -24,6 +30,7 @@ export const execute: Execute = async (ctx, bot) => {
     username: "",
     password: "",
     expiration: 0,
+    subscription: "default",
   });
 
   await ctx.reply(`Please provide the username for the new user.`);
@@ -99,6 +106,31 @@ async function handleExpiration(ctx: Context): Promise<void> {
   const userData = userCreationData.get(userId);
   if (userData) {
     userData.expiration = expirationParsed;
+  }
+
+  await ctx.reply(
+    "Please provide the subscription name for the new user. Send default to use the default subscription.",
+  );
+
+  stateManager.setWaitingForResponse(
+    userId,
+    "createuser_subscription",
+    handleSubscription,
+  );
+}
+
+async function handleSubscription(ctx: Context): Promise<void> {
+  const subscriptionRaw = ctx.message?.text?.trim();
+  const userId = ctx.from?.id;
+
+  if (!subscriptionRaw || !userId) {
+    await ctx.reply("Please provide a valid subscription name.");
+    return;
+  }
+
+  const userData = userCreationData.get(userId);
+  if (userData) {
+    userData.subscription = subscriptionRaw;
     // Store in the button module for callback handling
     setUserCreationData(userId, userData);
   }
@@ -144,7 +176,7 @@ async function createUser(
     sellerkey: userData.sellerKey,
     type: "adduser",
     user: userData.username,
-    sub: "default",
+    sub: userData.subscription,
     pass: userData.password,
     expiry: userData.expiration.toString(),
     hwidAffected: hwidAffected,
